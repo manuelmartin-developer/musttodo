@@ -1,5 +1,17 @@
+.day{
+    background-color: burlywood;
+}
+.night{
+    background-color: gray;
+}
+
 .weather{
-    margin-top: 150px;
+    margin-top: 120px;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
    
 }
 .weatherInfo{
@@ -8,6 +20,57 @@
     align-items: center;
     justify-content: center;
 }
+.weatherCurrent{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.icon-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+}
+.icon-text > div > p{
+    margin: 0 5px;
+}
+.icon-text-title{
+    font-size: 10px;
+}
+.current{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    margin-top: 20px;
+    border-radius: 10px; 
+    width: 80vw;
+}
+.forecast{
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.forecast-day{
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.temp{
+    font-size: 55px;
+    margin: 10px 0px;
+}
+#symbol{
+    font-size: medium;
+    vertical-align: super;
+}
+
 .cityName{
     margin: 0;
 }
@@ -22,4 +85,20 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+.form > form > input{
+    width: 80vw;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 0.5px solid #66A3BB;
+}
+
+.input-city{
+    width: 100%;
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 80vw;
 }

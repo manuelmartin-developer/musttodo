@@ -1,8 +1,27 @@
 import React, { Component } from "react";
 import httClient from '../../axios_client';
-import Loader from '../Loader'
-import WeatherCard from '../WeatherCard'
-import WeatherList from '../WeatherList'
+import Loader from '../Loader';
+import WeatherCard from '../WeatherCard';
+import WeatherList from '../WeatherList';
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
+const theme = createTheme({
+  status: {
+    danger: '#66A3BB',
+  },
+  palette: {
+    primary: {
+      main: '#0971f1',
+      darker: '#053e85',
+    },
+    neutral: {
+      main: '#66A3BB',
+      contrastText: '#fff',
+    },
+  },
+});
 
 class Weather extends Component {
 
@@ -14,8 +33,21 @@ class Weather extends Component {
     this.state = {
       isLoading: true,
       cityName: this.props.defaultCity,
-      weatherData: {}
+      weatherData: {},
+      search: []
     }
+  }
+
+  getSearch = () => {
+    httClient.get(`http://api.weatherapi.com/v1/search.json?key=fb300dacca6d454a9be190729211909&q=${this.city.current.value}`)
+    .then((response) => {
+      this.setState({
+        search: [...response.data]
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   getWeather = (city) => {
@@ -50,6 +82,13 @@ class Weather extends Component {
       })
   }
 
+  clearInput = ()=> {
+    this.city.current.value = ""
+    this.setState({
+      search: []
+    })
+  }
+
   componentDidMount() {
     this.getWeather(this.state.cityName)
   }
@@ -62,15 +101,33 @@ class Weather extends Component {
       )
     }
     const data = this.state.weatherData
+    console.log(data)
+    const isDay = data.current.is_day
+    console.log(isDay)
+    const cities = this.state.search
 
     return (
-      <section className="weather">
+      <section className={`weather ${isDay ? "day" : "night"}`}>
         <article className="form">
           <form autoComplete="off">
-            <input type="text" name="" id="" ref={this.city} />
-            <input type="submit" value="Search" onClick={this.getWeatherNewCity} />
-          </form>
-        </article>
+            <input list="cities" ref={this.city} onChange={this.getSearch}/>
+            <datalist id="cities">
+              {cities.map((city, index) => (
+                <option value={city.name} key={index}>{city.name}</option>
+              ))}
+            </datalist>
+            </form>
+            </article>
+            <article className="buttons">
+            <ThemeProvider theme={theme}>
+              <Button variant="contained" color="neutral" onClick={this.getWeatherNewCity}>
+                Search
+              </Button>
+              <Button variant="contained" color="neutral" onClick={this.clearInput}>
+                Clear
+              </Button>
+            </ThemeProvider>
+            </article>
         <WeatherCard data={data} />
         <WeatherList data={data} />
       </section>

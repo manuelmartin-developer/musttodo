@@ -30,7 +30,6 @@ class Footer extends Component {
 
   render() {
     const data = this.state.weatherData;
-    console.log(data)
     if(data.current){
       return (
         <div className="footer">

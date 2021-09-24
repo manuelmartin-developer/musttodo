@@ -1,8 +1,25 @@
 import React, { Component } from "react";
 import Task from "../Task/Task";
 import tasks from "../../tasks";
-import Fab from '@mui/material/Fab';
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Swal from 'sweetalert2'
+
+const theme = createTheme({
+  status: {
+    danger: '#66A3BB',
+  },
+  palette: {
+    primary: {
+      main: '#0971f1',
+      darker: '#053e85',
+    },
+    neutral: {
+      main: '#66A3BB',
+      contrastText: '#fff',
+    },
+  },
+});
 
 class TaskList extends Component {
 
@@ -140,15 +157,17 @@ class TaskList extends Component {
           <input className="input" type="text" name="desc" ref={this.desc} onChange={this.isInputFilled} />
         </form>
         <section className="buttons">
-          <Fab aria-label="add" onClick={this.resetTasks}>
-            Reset
-          </Fab>
-          <Fab className={`${filled ? "" : "invisible"}`} aria-label="add" onClick={this.addTask}>
-            Add
-          </Fab>
-          <Fab aria-label="add" onClick={this.removeAllTasks}>
-            Clear
-          </Fab>
+        <ThemeProvider theme={theme}>
+              <Button variant="contained" color="neutral" onClick={this.resetTasks}>
+                Reset
+              </Button>
+              <Button className={`${filled ? "" : "invisible"}`} variant="contained" color="neutral" onClick={this.addTask}>
+                Add
+              </Button>
+              <Button variant="contained" color="neutral" onClick={this.removeAllTasks}>
+                Clear
+              </Button>
+            </ThemeProvider>
         </section>
         <section className="tasks">
           <article>
