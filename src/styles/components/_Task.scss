@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Patrick+Hand+SC|Roboto&display=swap');
+.Task{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    border-bottom: 0.5px solid lightgray;
+}
+.Task > article {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.desc{
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    margin-left: 10px;
+    width: 100%;
+    font-family: 'Patrick Hand SC', cursive;
+    font-weight: lighter;
+}
+
+.crossLine{
+    text-decoration: line-through;
+}
+.DeleteIcon{
+    color: #66A3BB;
+}
