@@ -3,8 +3,11 @@ import httClient from '../../axios_client';
 import Loader from '../Loader';
 import WeatherCard from '../WeatherCard';
 import WeatherList from '../WeatherList';
+import WeatherHours from '../WeatherHours';
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 
 const theme = createTheme({
@@ -34,20 +37,22 @@ class Weather extends Component {
       isLoading: true,
       cityName: this.props.defaultCity,
       weatherData: {},
-      search: []
+      search: [],
+      longitude: '',
+      latitude: ''
     }
   }
 
   getSearch = () => {
     httClient.get(`http://api.weatherapi.com/v1/search.json?key=fb300dacca6d454a9be190729211909&q=${this.city.current.value}`)
-    .then((response) => {
-      this.setState({
-        search: [...response.data]
+      .then((response) => {
+        this.setState({
+          search: [...response.data]
+        })
       })
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   getWeather = (city) => {
@@ -82,7 +87,30 @@ class Weather extends Component {
       })
   }
 
-  clearInput = ()=> {
+  getWeatherPosition = (event) => {
+ 
+    let checked = event.target.checked
+
+    if (checked && "geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+
+          httClient.get(`http://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${position.coords.latitude},${position.coords.longitude}&days=5&aqi=yes&alerts=yes`)
+            .then((response) => {
+              this.setState({
+                weatherData: { ...response.data }
+              })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+      })
+
+    } else {
+      this.getWeather(this.state.cityName) 
+    }
+  }
+
+  clearInput = () => {
     this.city.current.value = ""
     this.setState({
       search: []
@@ -90,7 +118,7 @@ class Weather extends Component {
   }
 
   componentDidMount() {
-    this.getWeather(this.state.cityName)
+    this.getWeather(this.state.cityName) 
   }
 
   render() {
@@ -103,32 +131,33 @@ class Weather extends Component {
     const data = this.state.weatherData
     console.log(data)
     const isDay = data.current.is_day
-    console.log(isDay)
     const cities = this.state.search
 
     return (
       <section className={`weather ${isDay ? "day" : "night"}`}>
         <article className="form">
           <form autoComplete="off">
-            <input list="cities" ref={this.city} onChange={this.getSearch}/>
+            <input list="cities" ref={this.city} onChange={this.getSearch} />
             <datalist id="cities">
               {cities.map((city, index) => (
                 <option value={city.name} key={index}>{city.name}</option>
               ))}
             </datalist>
-            </form>
-            </article>
-            <article className="buttons">
-            <ThemeProvider theme={theme}>
-              <Button variant="contained" color="neutral" onClick={this.getWeatherNewCity}>
-                Search
-              </Button>
-              <Button variant="contained" color="neutral" onClick={this.clearInput}>
-                Clear
-              </Button>
-            </ThemeProvider>
-            </article>
+          </form>
+        </article>
+        <article className="buttons">
+          <ThemeProvider theme={theme}>
+            <Button variant="contained" color="neutral" onClick={this.getWeatherNewCity}>
+              Search
+            </Button>
+            <Button variant="contained" color="neutral" onClick={this.clearInput}>
+              Clear
+            </Button>
+          </ThemeProvider>
+        </article>
+        <FormControlLabel control={<Switch onChange={this.getWeatherPosition} />} label="geolocation" />
         <WeatherCard data={data} />
+        <WeatherHours data={data} />
         <WeatherList data={data} />
       </section>
     )
