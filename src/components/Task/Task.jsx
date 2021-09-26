@@ -30,7 +30,6 @@ class Task extends Component {
   render() {
 
     const { desc } = this.props.info;
-    console.log(this.props)
     const complete = this.state.complete;
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
