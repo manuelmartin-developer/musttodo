@@ -12,7 +12,7 @@ class Footer extends Component {
   }
 
   getWeather = (city) => {
-    httClient.get(`http://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${city}&days=5&aqi=yes&alerts=yes`)
+    httClient.get(`https://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${city}&days=5&aqi=yes&alerts=yes`)
       .then((response) => {
         this.setState({
           weatherData: { ...response.data }

@@ -44,7 +44,7 @@ class Weather extends Component {
   }
 
   getSearch = () => {
-    httClient.get(`http://api.weatherapi.com/v1/search.json?key=fb300dacca6d454a9be190729211909&q=${this.city.current.value}`)
+    httClient.get(`https://api.weatherapi.com/v1/search.json?key=fb300dacca6d454a9be190729211909&q=${this.city.current.value}`)
       .then((response) => {
         this.setState({
           search: [...response.data]
@@ -56,7 +56,7 @@ class Weather extends Component {
   }
 
   getWeather = (city) => {
-    httClient.get(`http://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${city}&days=5&aqi=yes&alerts=yes`)
+    httClient.get(`https://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${city}&days=5&aqi=yes&alerts=yes`)
       .then((response) => {
         this.setState({
           isLoading: false,
@@ -74,7 +74,7 @@ class Weather extends Component {
     let city = this.city.current.value;
 
 
-    httClient.get(`http://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${city}&days=5&aqi=yes&alerts=yes`)
+    httClient.get(`https://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${city}&days=5&aqi=yes&alerts=yes`)
       .then((response) => {
         this.setState({
           isLoading: false,
@@ -94,7 +94,7 @@ class Weather extends Component {
     if (checked && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
 
-          httClient.get(`http://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${position.coords.latitude},${position.coords.longitude}&days=5&aqi=yes&alerts=yes`)
+          httClient.get(`https://api.weatherapi.com/v1/forecast.json?key=fb300dacca6d454a9be190729211909&q=${position.coords.latitude},${position.coords.longitude}&days=5&aqi=yes&alerts=yes`)
             .then((response) => {
               this.setState({
                 weatherData: { ...response.data }
