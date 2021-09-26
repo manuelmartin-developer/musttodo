@@ -129,7 +129,6 @@ class Weather extends Component {
       )
     }
     const data = this.state.weatherData
-    console.log(data)
     const isDay = data.current.is_day
     const cities = this.state.search
 

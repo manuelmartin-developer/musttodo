@@ -3,7 +3,7 @@ import Task from "../Task/Task";
 import tasks from "../../tasks";
 import Button from '@mui/material/Button';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const theme = createTheme({
   status: {
@@ -31,6 +31,7 @@ class TaskList extends Component {
     this.state = {
       tasks: [],
       inputFilled: false,
+      inputValid: false,
       inputText: '',
       checked: false
     }
@@ -70,7 +71,7 @@ class TaskList extends Component {
       })
 
     } else {
-
+      
     }
 
   }
@@ -95,33 +96,45 @@ class TaskList extends Component {
   }
 
   isInputFilled = event => {
-
     let task = event.target.value;
     this.setState({ inputText: task })
 
-
-    if (task.length > 0) {
-      this.setState({
-        inputFilled: true
-      })
-
-    } else {
+    if (task.length === 0) {
       this.setState({
         inputFilled: false
+      })
+
+    } else if(task.length > 0 && task.length < 6){
+
+      this.setState({
+        inputFilled: true,
+        inputValid: false
+      })
+      
+    }else if(task.length >= 6){
+
+      this.setState({
+        inputFilled: true,
+        inputValid: true
       })
     }
 
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.inputText !== this.state.inputText) {
       this.handleCheck();
     }
   }
+  componentWillUnmount(){
+    clearTimeout(this.timer);
+  }
+
   handleCheck = () => {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.toggleCheck();
-      if (this.desc.current.value !== ""){
+      if (this.desc.current !== null && this.desc.current.value !== ""){
 
         this.desc.current.value = "";
         this.setState({
@@ -151,10 +164,11 @@ class TaskList extends Component {
   render() {
 
     const filled = this.state.inputFilled;
+    const valid = this.state.inputValid;
     return (
       <>
-        <form onSubmit={this.addTask} autoComplete="off">
-          <input className="input" type="text" name="desc" ref={this.desc} onChange={this.isInputFilled} />
+        <form autoComplete="off">
+          <input className={`input ${valid ? "valid" : "wrong"}`} type="text" name="desc" ref={this.desc} onChange={this.isInputFilled} />
         </form>
         <section className="buttons">
         <ThemeProvider theme={theme}>

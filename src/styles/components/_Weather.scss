@@ -224,6 +224,10 @@
 
   
 }
+.hours-info::-webkit-scrollbar {
+    display: none;
+  }
+  
 .forecast-hour{
   display: flex;
   flex-direction: column;

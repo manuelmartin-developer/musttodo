@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 
+
 class Task extends Component {
 
   constructor(props) {
@@ -29,6 +30,7 @@ class Task extends Component {
   render() {
 
     const { desc } = this.props.info;
+    console.log(this.props)
     const complete = this.state.complete;
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -44,8 +46,8 @@ class Task extends Component {
                 color: "#66A3BB",
               },
             }}
-          />
-          <h3 className={`desc ${complete ? "crossLine" : ""}`}>{desc}</h3>
+            />
+          <h3 className={`desc ${complete ? "crossLine" : ""}`} >{desc}</h3>
         </article>
         <IconButton aria-label="delete" size="small" onClick={this.props.remove}>
           <DeleteIcon fontSize="inherit" className="DeleteIcon" />

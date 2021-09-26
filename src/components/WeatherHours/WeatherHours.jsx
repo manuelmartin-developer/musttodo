@@ -17,7 +17,7 @@ class WeatherHours extends Component {
 
   render() {
     const data = this.props.data.forecast.forecastday[0].hour
-    console.log(data)
+
     return (
         <section className="hours-info">
           {this.paintHours(data)}
